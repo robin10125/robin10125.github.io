@@ -1,0 +1,27 @@
+title: Robin's Research Blog
+description: A blog for my research projects
+theme: minima
+
+url: https://robin10125.github.io
+
+author:
+  name: Robin Hylands
+  email: robin10125@gmail.com
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+permalink: /:year/:month/:title/
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
