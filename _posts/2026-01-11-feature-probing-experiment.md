@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: "Can a model trained to predict letters learn to represent words?"
