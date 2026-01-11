@@ -1,2 +1,1 @@
-# robin10125.github.io
-Research Blog
+Robin's Research Blog
