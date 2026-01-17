@@ -366,3 +366,5 @@ Below is a list of all the words with highly selective features
 | be | 2439 | 1 | F5036(75%) |
 | take | 3054 | 1 | F5952(75%) |
 | idea | 1018 | 1 | F11197(75%) |
+
+[Check out the notebook for more details!](https://github.com/robin10125/robin10125.github.io/code/char_gpt_sae_training.ipynb)
