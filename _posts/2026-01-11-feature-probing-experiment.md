@@ -16,9 +16,9 @@ The scope of this experiment does not reach this yet, as I said, this is a first
 
 Going into this experiment, I fully expected to the model to learn to represent words, as doing so seems to be the most natural way to properly predict characters -if you have an internal model of words and their composed characters, predicting next characters is a trivial task. 
 
-#Experimental Design
+# Experimental Design
 
-##Transformer Model
+## Transformer Model
 I trained a simple GPT-2 style model to predict character level (byte) tokens from the TinyStories dataset.  I trained the model for 6000 steps, with a batch size of 32, and context length of 512, totalling around 100 000 000 tokens.  The model was trained on a single Tesla T4 GPU for a grand total of a couple dollars worth of compute credits.
 
 Model hyperparameters table below:
@@ -57,7 +57,7 @@ This definitly has that delightful creativity that only small models seem to pro
   <figcaption>Loss curves for character prediction model.</figcaption>
 </figure>
 
-##Sparse Autoencoder
+## Sparse Autoencoder
 I then trained the SAE.  I used <a href="https://cdn.openai.com/papers/sparse-autoencoders.pdf">top-k activation selection to enforce sparcity</a>. I used a 32x expansion factor, for a hidden dimension of 16384, and a k value of 32.
 
 SAE hyperparameters table below:
@@ -95,7 +95,7 @@ I then look to find which features activate very strongly to particular words, a
   <img src="/_images/feature-activation-frequency.png" alt="Distribution of feature activations and their frequency.">
   <figcaption>Distribution of feature activations and their frequencies.</figcaption>
 </figure>
-#Results
+# Results
 Overall I found 262 words that have unique highly selective features active strongly for them.  My analysis so far isn't super deep, but superficially these results are seem pretty strong.  If anything, I am quite impressed by how many words have dedicated highly selective features.  
 
 I am also currently running a second experiment where I test the effects of injecting these features into the model.  I want to see to what extent that I can control the world level behaviour of the model by injecting these features.  I will update this post with the results of that experiment when I am finished with it.
