@@ -1,0 +1,1 @@
+I have been working on a framework to use predictive coding style objectives in order to automatcally scale  the number of simultaenous objectives a model is training on.  This blog post will outline the history of this idea, it's current state, and future work.  The post is currently under construction, so expect an update in a few days.  
