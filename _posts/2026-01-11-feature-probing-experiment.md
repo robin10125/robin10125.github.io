@@ -52,6 +52,11 @@ Eg:
 
 This definitly has that delightful creativity that only small models seem to produce.  
 
+<figure>
+  <img src="/_images/char-feature-model-val-loss.png" alt="Loss curve for character prediction model.">
+  <figcaption>Loss curves for character prediction model.</figcaption>
+</figure>
+
 ##Sparse Autoencoder
 I then trained the SAE.  I used <a href="https://cdn.openai.com/papers/sparse-autoencoders.pdf">top-k activation selection to enforce sparcity</a>. I used a 32x expansion factor, for a hidden dimension of 16384, and a k value of 32.
 
@@ -71,6 +76,12 @@ SAE hyperparameters table below:
 
 One mistake I made was only collecting 250 000 activations for feature probing, which is probably 100x to few given the number of training steps.  I don't think this really affects my results for the purposes of this experiment, but it is something I will be more careful about next time.
 Anyways, the SAE model reached a final reconstruction loss of 0.6197, an aux top-k loss of 0.4488.
+
+<figure>
+  <img src="/_images/sae-recon-loss.png" alt="Training stats for SAE model.">
+  <figcaption>Graphs of training stats for SAE model. These graphs reflect performance on the training set</figcaption>
+</figure>
+
 I then did a basic analysis of the activations, finding:
 
 >Total features: 16384
@@ -80,7 +91,10 @@ I then did a basic analysis of the activations, finding:
 >Median activation frequency: 0.0007
 
 I then look to find which features activate very strongly to particular words, and which features activate exvlusively to particular words.  I look at the most common words in my dataset, and find the features that activate for tokens towards the end of the word. This roughly corresponds to the presence of features that can detect the end of a word.  A second exmperiment I am currently running looks at the middle of the word and examines the features produced there.  I will update this post with the results of that experiment when I am finished with it.
-
+<figure>
+  <img src="/_images/feature-activation-frequency.png" alt="Distribution of feature activations and their frequency.">
+  <figcaption>Distribution of feature activations and their frequencies.</figcaption>
+</figure>
 #Results
 Overall I found 262 words that have unique highly selective features active strongly for them.  My analysis so far isn't super deep, but superficially these results are seem pretty strong.  If anything, I am quite impressed by how many words have dedicated highly selective features.  
 
