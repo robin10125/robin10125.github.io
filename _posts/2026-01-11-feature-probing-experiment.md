@@ -93,9 +93,9 @@ I then look to find which features activate very strongly to particular words, a
 <figure>
   <img src="/images/feature-activation-frequency.png" alt="Distribution of feature activations and their frequency.">
 </figure>
-# Results
+# Results and Discussion
 Overall I found 262 words that have unique highly selective features active strongly for them.  My analysis so far isn't super deep, but superficially these results are seem pretty strong.  If anything, I am quite impressed by how many words have dedicated highly selective features.  
-# Other Future Work
+## Other Future Work
 My nex crack at this project will probably examine if these "unique" features are present in subwords as well.  This will pair nicely with the middle of word feature probing that I am currently running.  If a feature is present in terminating subwords shared by multiple words, then it is not truly unique to a word.  
 
 I am also currently running a second experiment where I test the effects of injecting these features into the model.  I want to see to what extent that I can control the world level behaviour of the model by injecting these features.  I will update this post with the results of that experiment when I am finished with it.
