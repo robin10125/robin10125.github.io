@@ -54,7 +54,6 @@ This definitly has that delightful creativity that only small models seem to pro
 
 <figure>
   <img src="/images/char-feature-model-val-loss.png" alt="Loss curve for character prediction model.">
-  <figcaption>Loss curves for character prediction model.</figcaption>
 </figure>
 
 ## Sparse Autoencoder
@@ -93,7 +92,6 @@ I then did a basic analysis of the activations, finding:
 I then look to find which features activate very strongly to particular words, and which features activate exvlusively to particular words.  I look at the most common words in my dataset, and find the features that activate for tokens towards the end of the word. This roughly corresponds to the presence of features that can detect the end of a word.  A second exmperiment I am currently running looks at the middle of the word and examines the features produced there.  I will update this post with the results of that experiment when I am finished with it.
 <figure>
   <img src="/images/feature-activation-frequency.png" alt="Distribution of feature activations and their frequency.">
-  <figcaption>Distribution of feature activations and their frequencies.</figcaption>
 </figure>
 # Results
 Overall I found 262 words that have unique highly selective features active strongly for them.  My analysis so far isn't super deep, but superficially these results are seem pretty strong.  If anything, I am quite impressed by how many words have dedicated highly selective features.  
