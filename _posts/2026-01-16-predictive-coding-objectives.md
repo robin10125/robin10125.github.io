@@ -1,1 +1,31 @@
-I have been working on a framework to use predictive coding style objectives in order to automatcally scale  the number of simultaenous objectives a model is training on.  This blog post will outline the history of this idea, it's current state, and future work.  The post is currently under construction, so expect an update in a few days.  
+I have been working on a framework to use predictive coding style objectives to automatically scale  the number of simultaenous objectives a model is training on.  This blog post will outline the history of this idea, it's current state, and future work. 
+
+This project started out as an inquiry into synthetic data augmentation.  I had the idea of having a system of neural networks all contributing a unique direction to data augmentation, and I was thinking about coordinating these networks with a high level reward signal to encourage useful augmentations.  But as I was drawing this out, I realized that with higher level guidance, we could get weird and operate within latent spaces -using the higher level rewards to guide the data augmentation networks to operate within the latent space, and effectively use these networks as to generate data for latent supervision - giving the model data at whatever level of abstraction desired.  At the same time I was reading into some basic neuroscience, and looking at coritcal columns, and I realized that the modular structure of cortical columns mapped elegantly to my idea of modular networks performing latent supervision with some higher level reward signal to coordinate them.  This also provided a natural framework for organizing the higher order reward signal -to do so the same way our brains do: with predictive coding.  Each network module provides supervision to a lower order module, creating a hierachy of modules abstracting and modifying data to the end of producing effective predicitons.  Thus revealed to me was an elegant, modular and scalable framework (in theory) to test out.
+
+## Predictive Coding
+
+Neuroscientists believe that the brain learns using something called predictive coding—a hierarchical system where higher-level neural circuits predict lower-level circuit activity, then update based on prediction errors. This is an elegant, local, easily scalable structure.  More brain tissue also means more capacity to supervise lower order circuits.  There has been much work implementing predictive coding in deep learning, and I'll link some papers at the end of this post.  
+
+## What I am Trying to Do
+
+The core idea is to fork the residual stream of a model, and have a module predict the next token in the sequence in the latent space at the fork.  This module can itself have it's residuals forked in the same manner, and we can attend to and join the representations generated in this module.
+I have currenty tested using cross-attention to join the representations, mimicking how top-down predictions in the brain modulate bottom-up processing.
+The goal is to, by forcing part of the network to anticipate its own future states, encourage more abstract, transferable representations -potentially improving sample efficiency and allowing models to extract more learning signal from limited data.
+Ultimately, this project is an attempt to design a system that can arbitraruly scale in the direction of number of training objectives, with each modular predictive coding objective serving as as single objective.  
+## Results
+
+Training a small model on WikiText-103, I observed several encouraging signs. The MPC architecture didn't break anything—the model learned to do language modeling just fine. More interestingly, ablation studies showed the β stream was contributing: removing its cross-attention connection measurably increased loss.
+
+Gradient flow analysis revealed a compelling pattern. Early in training, the model essentially ignored the forked stream (the network predicting future latents). But around step 1000, something shifted—gradients recovered and continued growing, suggesting the predictive coding pathway was becoming increasingly integrated into the model's computations.
+
+The problem, however, became clear when I tested removing the core predictive coding objective while keeping the rest of the architecture the same.  While I have not tuned the various hyperparemeters, with the basic setup I had, performance removing the objective was equivalent to the baseline with the objective.  The fact that the objective didn't take anything away from the model is encouraging, but obviously the goal is to improve performance. Perhaps I could improve this by tuning the predictive coding objective, but ultimately I think there is a more fundamental issue.  
+I have spent many hours refining the basic logic of this architecture, to the point where is became simple enough to be easily expressed, understood and impemented, and modular to the point of arbitrary scaling. However, at the very core, the predictive coding objective remains crude.  Simply predicting latent representations means dealing with inevitable noise, especially in the early stages of training.  I could resolve this by phasing the predictive codimg modules in as representations develop during training , but this is not a real solution as there will still be noise that the model must contend with.  I think a real solution looks like some operation that fundamentally compresses the representations being predicted, dispensing with  noise and leaving a salient target to predict.  My architecture asks the model to predict future states at full resolution, noise and all, and I need to modify it to allow it to only predict the underlying structure sans noise.
+
+I remain convinced that multi-objective training and predictive structures have untapped potential for language models. But the objective formulation needs to be rethought. Future directions I'm considering:
+
+1. Forcing compression through dimensionality reduction in the prediction target. 
+2. Forcing compression through sparsity in the prediction target.
+
+I will rekindle this project and experiment with these ideas when I have the time to do so.  I am currenty juggling responsibilities helping run a community group, maintaining a high GPA in school, working on another line of research and competitive dancing. 
+
+Link to a notebook with the basic implementation, testing a particular formulation of the architecture: [PredictiveCoding_Sequential.ipynb](https://github.com/robin10125/robin10125.github.io/blob/main/code/PredictiveCoding_Sequential.ipynb)
