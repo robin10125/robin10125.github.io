@@ -1,0 +1,1 @@
+In this post I will outine the beginning of my research into automating the RLVR pipeline by training models to generate the environemnts we tarin models in.  
